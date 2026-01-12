@@ -11,4 +11,14 @@ body {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+  overflow-x: hidden;
+}
+
+@layer components {
+  body {
+    @apply bg-gradient-to-br from-gray-900 via-[var(--bg-color)] to-gray-900;
+  }
+  .section {
+    @apply min-h-screen  text-white overflow-x-hidden;
+  }
 }
