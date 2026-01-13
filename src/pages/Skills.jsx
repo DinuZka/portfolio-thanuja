@@ -15,16 +15,25 @@ export default function Skills() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 xl:gap-24 max-w-7xl mx-auto items-center">
           {/* Left Side - Title and Quote */}
           <div className="space-y-4 sm:space-y-6 lg:space-y-8 text-center lg:text-left">
-            <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight leading-tight">
+            <h2
+              data-aos="fade-left"
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight leading-tight"
+            >
               SKILLS
             </h2>
-            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-gray-300 font-light leading-relaxed px-4 sm:px-0">
+            <p
+              data-aos="fade-left"
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-gray-300 font-light leading-relaxed px-4 sm:px-0"
+            >
               "Lorem ipsum dolor sit amet, consectetur"
             </p>
           </div>
 
           {/* Right Side - Skills Progress Bars */}
-          <div className="space-y-5 sm:space-y-6 lg:space-y-7">
+          <div
+            data-aos="fade-right"
+            className="space-y-5 sm:space-y-6 lg:space-y-7"
+          >
             {skills.map((skill, index) => (
               <div key={index} className="space-y-2">
                 {/* Skill Name */}

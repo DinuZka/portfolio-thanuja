@@ -29,11 +29,14 @@ export default function Gallery() {
   ];
 
   return (
-    <section className="section">
+    <section className="section min-h-dvh">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         {/* Gallery Header */}
         <div className="mb-8 sm:mb-12 lg:mb-16">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight">
+          <h2
+            data-aos="fade-right"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight"
+          >
             GALLERY
           </h2>
         </div>
@@ -42,6 +45,7 @@ export default function Gallery() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
           {galleryItems.map((item) => (
             <div
+              data-aos="zoom-in"
               key={item.id}
               className="group relative aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer shadow-2xl hover:shadow-3xl transition-all duration-500"
             >

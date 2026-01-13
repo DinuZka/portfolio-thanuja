@@ -37,7 +37,10 @@ export default function About() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         <div className="flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-10 lg:gap-16 xl:gap-24 max-w-7xl mx-auto">
           {/* Character Image */}
-          <div className="flex-shrink-0 order-1 lg:order-1">
+          <div
+            data-aos="fade-right"
+            className="flex-shrink-0 order-1 lg:order-1"
+          >
             <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[400px] lg:h-[400px] xl:w-[450px] xl:h-[450px]">
               <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 rounded-full"></div>
               <div className="absolute inset-2 sm:inset-3 bg-gradient-to-br from-gray-700 to-black rounded-full overflow-hidden border-4 sm:border-[6px] border-gray-800 shadow-2xl">
@@ -54,18 +57,27 @@ export default function About() {
 
           {/* Text Content */}
           <div className="flex-1 w-full text-center lg:text-left space-y-5 sm:space-y-6 md:space-y-8 order-2 lg:order-2 px-2 sm:px-0">
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight">
+            <h2
+              data-aos="fade-up"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight"
+            >
               WHO AM I ?
             </h2>
 
-            <p className="text-gray-400 text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed px-4 sm:px-0">
+            <p
+              data-aos="fade-up"
+              className="text-gray-400 text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed px-4 sm:px-0"
+            >
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam.
             </p>
 
             <div className="pt-2 sm:pt-3 md:pt-4">
-              <button className=" glass-card px-8 sm:px-10 md:px-12 lg:px-14 py-3 sm:py-3.5 md:py-4 rounded-full text-xs sm:text-sm md:text-base uppercase tracking-wider transition-all duration-300 font-medium active:scale-95 shadow-lg hover:shadow-xl">
+              <button
+                data-aos="fade-up"
+                className=" glass-card px-8 sm:px-10 md:px-12 lg:px-14 py-3 sm:py-3.5 md:py-4 rounded-full text-xs sm:text-sm md:text-base uppercase tracking-wider transition-all duration-300 font-medium active:scale-95 shadow-lg hover:shadow-xl"
+              >
                 <div className="flex flex-row gap-1">
                   CV IS HERE <TbFileCv />
                 </div>
@@ -73,7 +85,10 @@ export default function About() {
             </div>
 
             {/* Adobe Suite Icons */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 md:gap-6 pt-4 sm:pt-6 md:pt-8">
+            <div
+              data-aos="fade-left"
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 md:gap-6 pt-4 sm:pt-6 md:pt-8"
+            >
               {skills.map((skill, index) => (
                 <div
                   key={index}
