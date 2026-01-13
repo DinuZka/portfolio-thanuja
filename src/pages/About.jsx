@@ -42,7 +42,7 @@ export default function About() {
               <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 rounded-full"></div>
               <div className="absolute inset-2 sm:inset-3 bg-gradient-to-br from-gray-700 to-black rounded-full overflow-hidden border-4 sm:border-[6px] border-gray-800 shadow-2xl">
                 <img
-                  src="../images/2.webp"
+                  src={`${import.meta.env.BASE_URL}/images/2.webp`}
                   alt="Designer character"
                   className="w-full h-full object-cover"
                 />
@@ -65,8 +65,10 @@ export default function About() {
             </p>
 
             <div className="pt-2 sm:pt-3 md:pt-4">
-              <button className="flex flex-row gap-1 glass-card px-8 sm:px-10 md:px-12 lg:px-14 py-3 sm:py-3.5 md:py-4 rounded-full text-xs sm:text-sm md:text-base uppercase tracking-wider transition-all duration-300 font-medium active:scale-95 shadow-lg hover:shadow-xl">
-                CV IS HERE <TbFileCv />
+              <button className=" glass-card px-8 sm:px-10 md:px-12 lg:px-14 py-3 sm:py-3.5 md:py-4 rounded-full text-xs sm:text-sm md:text-base uppercase tracking-wider transition-all duration-300 font-medium active:scale-95 shadow-lg hover:shadow-xl">
+                <div className="flex flex-row gap-1">
+                  CV IS HERE <TbFileCv />
+                </div>
               </button>
             </div>
 

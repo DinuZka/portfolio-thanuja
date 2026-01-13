@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 :root {
-  --bg-color: #304d6d;
+  --bg-color: #06213d;
   --primary-color: #63adf2;
   --light-txt-color: #fdffff;
   --dark-txt-color: #001021;
@@ -16,9 +16,9 @@ body {
 
 @layer components {
   body {
-    @apply bg-gradient-to-br from-gray-900 via-[var(--bg-color)] to-gray-900;
+    @apply bg-gradient-to-br from-black via-[var(--bg-color)] to-black;
   }
   .section {
-    @apply min-h-screen  text-white overflow-x-hidden;
+    @apply min-h-screen  text-white overflow-x-hidden py-10 md:py-0;
   }
 }
