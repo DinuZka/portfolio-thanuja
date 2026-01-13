@@ -19,6 +19,6 @@ body {
     @apply bg-gradient-to-br from-black via-[var(--bg-color)] to-black;
   }
   .section {
-    @apply min-h-screen  text-white overflow-x-hidden py-10 md:py-0;
+    @apply text-white overflow-x-hidden py-10 md:py-0;
   }
 }
