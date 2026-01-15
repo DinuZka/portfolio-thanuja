@@ -1,0 +1,56 @@
+.active {
+  color: #ffffff;
+  padding-bottom: 3px;
+}
+/* ===== HAMBURGER ICON ===== */
+.menu-icon {
+  display: none;
+  align-items: end;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 9999;
+}
+
+.menu-icon span {
+  width: 28px;
+  height: 3px;
+  background: #f1f1f1;
+  transition: 0.4s;
+  border-radius: 5px;
+}
+
+/* Hamburger animation */
+.menu-icon.open span:nth-child(1) {
+  transform: rotate(45deg) translateY(11px);
+}
+.menu-icon.open span:nth-child(2) {
+  opacity: 0;
+}
+.menu-icon.open span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-11px);
+}
+
+/* ===== MOBILE MENU ===== */
+@media (max-width: 768px) {
+  .nav-menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    background: black;
+    flex-direction: column;
+    text-align: center;
+    height: 0;
+    overflow: hidden;
+    transition: 0.4s ease-in-out;
+  }
+
+  .nav-menu.active {
+    height: 100dvh; /* dropdown height */
+  }
+
+  .menu-icon {
+    display: flex;
+  }
+}

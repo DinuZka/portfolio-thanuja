@@ -33,7 +33,7 @@ export default function About() {
   ];
 
   return (
-    <section className="section">
+    <section id="about" className="section">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         <div className="flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-10 lg:gap-16 xl:gap-24 max-w-7xl mx-auto">
           {/* Character Image */}

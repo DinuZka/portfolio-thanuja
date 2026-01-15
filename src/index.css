@@ -7,11 +7,17 @@
   --light-txt-color: #fdffff;
   --dark-txt-color: #001021;
 }
+html,
 body {
+  scroll-behavior: smooth;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
   overflow-x: hidden;
+}
+
+@utility flex-center {
+  @apply flex justify-center items-center;
 }
 
 @layer components {
@@ -19,6 +25,23 @@ body {
     @apply bg-gradient-to-br from-black via-[var(--bg-color)] to-black;
   }
   .section {
-    @apply text-white overflow-x-hidden py-10 md:py-0;
+    @apply text-white overflow-x-hidden py-25 md:py-12;
+  }
+  nav {
+    @apply fixed z-50 w-full;
+    div {
+      @apply flex md:flex-row md:justify-between items-center gap-5 py-5  px-5 lg:px-8 container mx-auto;
+    }
+    p {
+      @apply text-3xl font-light;
+    }
+
+    a {
+      @apply cursor-pointer text-nowrap md:text-base text-sm font-light;
+    }
+
+    ul {
+      @apply flex-center lg:gap-12 gap-7;
+    }
   }
 }

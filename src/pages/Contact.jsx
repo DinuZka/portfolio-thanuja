@@ -1,15 +1,9 @@
 import React from "react";
 import { Facebook, Twitter, Instagram } from "lucide-react";
 import "../index.css";
+import { navLinks } from "../components/NavList";
 
 export default function Contact() {
-  const navigation = [
-    { name: "HOME", href: "#home" },
-    { name: "GALLERY", href: "#gallery" },
-    { name: "ABOUT", href: "#about" },
-    { name: "SKILLS", href: "#skills" },
-  ];
-
   const socialLinks = [
     { icon: Facebook, href: "#", label: "Facebook" },
     { icon: Twitter, href: "#", label: "Twitter" },
@@ -17,7 +11,10 @@ export default function Contact() {
   ];
 
   return (
-    <section className="section flex flex-col min-h-screen overflow-hidden">
+    <section
+      id="contact"
+      className="section flex flex-col min-h-screen overflow-hidden"
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 flex-grow flex flex-col justify-between">
         {/* Top Section */}
         <div className="space-y-4 sm:space-y-6">
@@ -48,31 +45,22 @@ export default function Contact() {
         {/* Bottom Section */}
         <div className="space-y-8 sm:space-y-10 lg:space-y-12">
           {/* Navigation and Social Icons */}
-          <div
-            data-aos="fade-up"
-            className="flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-4 pb-6 sm:pb-8 border-b border-gray-700"
-          >
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-4 pb-6 sm:pb-8 border-b border-gray-700">
             {/* Navigation Menu */}
-            <nav
-              data-aos="fade-up"
-              className="flex flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-6 lg:gap-8"
-            >
-              {navigation.map((item) => (
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-6 lg:gap-8">
+              {navLinks.slice(0, -1).map((link) => (
                 <a
-                  key={item.name}
-                  href={item.href}
+                  key={link.id}
+                  href={`#${link.id}`}
                   className="text-sm sm:text-base md:text-sm font-medium uppercase tracking-wide hover:text-[var(--primary-color)] transition-colors duration-300 hover:scale-105 transform"
                 >
-                  {item.name}
+                  {link.title}
                 </a>
               ))}
-            </nav>
+            </div>
 
             {/* Social Icons */}
-            <div
-              data-aos="fade-up"
-              className="flex items-center gap-3 sm:gap-4"
-            >
+            <div className="flex items-center gap-3 sm:gap-4">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
