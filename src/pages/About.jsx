@@ -12,28 +12,24 @@ export default function About() {
   const skills = [
     {
       name: "Photoshop",
-      icons: <SiAdobephotoshop className="w-8 h-8" />,
-      bg: "bg-[#00a4e4]",
+      icons: <SiAdobephotoshop size={50} />,
     },
     {
       name: "Illustrator",
-      icons: <SiAdobeillustrator className="w-8 h-8" />,
-      bg: "bg-[#8a7967]",
+      icons: <SiAdobeillustrator size={50} />,
     },
     {
       name: "Premiere Pro",
-      icons: <SiAdobepremierepro className="w-8 h-8" />,
-      bg: "bg-[#8e43e7]",
+      icons: <SiAdobepremierepro size={50} />,
     },
     {
       name: "After Effects",
-      icons: <SiAdobeaftereffects className="w-8 h-8" />,
-      bg: "bg-[#CF96FD]",
+      icons: <SiAdobeaftereffects size={50} />,
     },
   ];
 
   return (
-    <section id="about" className="section">
+    <section id="about" className="section noisy">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         <div className="flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-10 lg:gap-16 xl:gap-24 max-w-7xl mx-auto">
           {/* Character Image */}
@@ -87,12 +83,12 @@ export default function About() {
             {/* Adobe Suite Icons */}
             <div
               data-aos="fade-left"
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 md:gap-6 pt-4 sm:pt-6 md:pt-8"
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 md:gap-5 pt-4 sm:pt-6 md:pt-8"
             >
               {skills.map((skill, index) => (
                 <div
                   key={index}
-                  className={`${skill.bg} w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-lg flex items-center justify-center font-bold text-white text-base sm:text-lg md:text-xl shadow-lg hover:scale-110 hover:shadow-2xl transition-all duration-300 cursor-pointer`}
+                  className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-lg flex items-center justify-center font-bold text-white text-base sm:text-lg md:text-xl shadow-lg hover:scale-110 hover:shadow-2xl transition-all duration-300 cursor-pointer"
                   title={skill.name}
                 >
                   {skill.icons}

@@ -13,7 +13,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="section flex flex-col min-h-screen overflow-hidden"
+      className="section noisy flex flex-col min-h-screen overflow-hidden"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 flex-grow flex flex-col justify-between">
         {/* Top Section */}

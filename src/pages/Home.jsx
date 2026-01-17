@@ -11,7 +11,7 @@ export default function Home() {
   ];
 
   return (
-    <section id="home" className="section">
+    <section id="home" className="section noisy">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-8 md:py-10">
         {/* Social Media Icons */}
         <div className="flex justify-center mb-6 sm:mb-8 md:mb-12">
