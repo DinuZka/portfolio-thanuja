@@ -13,22 +13,22 @@ export default function About() {
     {
       name: "Photoshop",
       icons: <SiAdobephotoshop className="w-8 h-8" />,
-      bg: "bg-[#0b2631]",
+      bg: "bg-[#00a4e4]",
     },
     {
       name: "Illustrator",
       icons: <SiAdobeillustrator className="w-8 h-8" />,
-      bg: "bg-[#3c240c]",
+      bg: "bg-[#8a7967]",
     },
     {
       name: "Premiere Pro",
       icons: <SiAdobepremierepro className="w-8 h-8" />,
-      bg: "bg-[#231E72]",
+      bg: "bg-[#8e43e7]",
     },
     {
       name: "After Effects",
       icons: <SiAdobeaftereffects className="w-8 h-8" />,
-      bg: "bg-[#393665]",
+      bg: "bg-[#CF96FD]",
     },
   ];
 
