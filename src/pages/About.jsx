@@ -83,7 +83,7 @@ export default function About() {
             {/* Adobe Suite Icons */}
             <div
               data-aos="fade-left"
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 md:gap-5 pt-4 sm:pt-6 md:pt-8"
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 md:gap-4 pt-4 sm:pt-6 md:pt-8"
             >
               {skills.map((skill, index) => (
                 <div

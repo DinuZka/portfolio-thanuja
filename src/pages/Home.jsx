@@ -2,6 +2,7 @@ import React from "react";
 import { Facebook, Linkedin, Instagram } from "lucide-react";
 import "../components/glassEffectStyle.css";
 import "../index.css";
+import { TypewriterCycle } from "../components/TypeWriter.jsx";
 
 export default function Home() {
   const socialMediaLinks = [
@@ -43,11 +44,15 @@ export default function Home() {
             </p>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-none">
-              I'M A DESIGNER
-              <br />
-              <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
-                & PHOTOGRAPHER
-              </span>
+              <span className="text-white">I'm a </span>
+              <TypewriterCycle
+                words={["Designer.", "Photographer.", "Creator."]}
+                className=" bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+                cursorColor="bg-purple-500"
+                typingDelay={100}
+                erasingDelay={60}
+                delayBetween={2500}
+              />
             </h1>
 
             <p className="text-gray-400 text-xs sm:text-sm md:text-base lg:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed px-4 sm:px-0">
