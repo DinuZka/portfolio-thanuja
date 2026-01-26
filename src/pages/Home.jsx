@@ -74,7 +74,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-800 rounded-full"></div>
               <div className="absolute inset-1 sm:inset-2 bg-gradient-to-br from-teal-600/20 to-gray-800 rounded-full overflow-hidden border-2 sm:border-4 border-gray-700">
                 <img
-                  src={`${import.meta.env.BASE_URL}/images/main.webp`}
+                  src={`${import.meta.env.BASE_URL}/images/2.webp`}
                   alt="Designer and Photographer"
                   className="w-full h-full object-cover"
                 />

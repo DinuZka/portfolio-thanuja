@@ -1,33 +1,8 @@
-import { icons } from "lucide-react";
 import React from "react";
-import {
-  SiAdobephotoshop,
-  SiAdobeillustrator,
-  SiAdobepremierepro,
-  SiAdobeaftereffects,
-} from "react-icons/si";
+
 import { TbFileCv } from "react-icons/tb";
 
 export default function About() {
-  const skills = [
-    {
-      name: "Photoshop",
-      icons: <SiAdobephotoshop size={50} />,
-    },
-    {
-      name: "Illustrator",
-      icons: <SiAdobeillustrator size={50} />,
-    },
-    {
-      name: "Premiere Pro",
-      icons: <SiAdobepremierepro size={50} />,
-    },
-    {
-      name: "After Effects",
-      icons: <SiAdobeaftereffects size={50} />,
-    },
-  ];
-
   return (
     <section id="about" className="section noisy">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
@@ -41,7 +16,7 @@ export default function About() {
               <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 rounded-full"></div>
               <div className="absolute inset-2 sm:inset-3 bg-gradient-to-br from-gray-700 to-black rounded-full overflow-hidden border-4 sm:border-[6px] border-gray-800 shadow-2xl">
                 <img
-                  src={`${import.meta.env.BASE_URL}/images/2.webp`}
+                  src={`${import.meta.env.BASE_URL}/images/main.webp`}
                   alt="Designer character"
                   className="w-full h-full object-cover"
                 />
@@ -78,22 +53,6 @@ export default function About() {
                   CV IS HERE <TbFileCv />
                 </div>
               </button>
-            </div>
-
-            {/* Adobe Suite Icons */}
-            <div
-              data-aos="fade-left"
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 md:gap-4 pt-4 sm:pt-6 md:pt-8"
-            >
-              {skills.map((skill, index) => (
-                <div
-                  key={index}
-                  className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-lg flex items-center justify-center font-bold text-white text-base sm:text-lg md:text-xl shadow-lg hover:scale-110 hover:shadow-2xl transition-all duration-300 cursor-pointer"
-                  title={skill.name}
-                >
-                  {skill.icons}
-                </div>
-              ))}
             </div>
           </div>
         </div>
