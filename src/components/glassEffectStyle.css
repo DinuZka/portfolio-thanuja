@@ -1,74 +1,365 @@
 .glass-card {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 0 0 0 rgba(255, 255, 255, 1);
+  /* Ethereal vapor glass */
+  background:
+    radial-gradient(
+      ellipse at 10% 20%,
+      rgba(255, 245, 255, 0.3) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at 90% 80%,
+      rgba(230, 240, 255, 0.25) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+  backdrop-filter: blur(35px) saturate(180%) brightness(1.05);
+  -webkit-backdrop-filter: blur(35px) saturate(180%) brightness(1.05);
+
+  /* Soft luminous border */
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 32px;
   position: relative;
   overflow: hidden;
-  transition: box-shadow 0.8s ease;
-  -webkit-transition: box-shadow 0.8s ease;
-}
-.glass-card:hover {
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6);
+
+  /* Dreamy soft shadows */
+  box-shadow:
+    0 8px 40px rgba(150, 150, 200, 0.15),
+    0 2px 16px rgba(200, 200, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+
+  transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Floating light wisps */
 .glass-card::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.8),
-    transparent
-  );
-
-  pointer-events: none;
+  inset: -50%;
+  background:
+    radial-gradient(
+      circle at 25% 25%,
+      rgba(255, 220, 255, 0.4) 0%,
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      rgba(220, 240, 255, 0.35) 0%,
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 50% 80%,
+      rgba(255, 255, 220, 0.3) 0%,
+      transparent 15%
+    );
+  filter: blur(40px);
   opacity: 0;
-  transform: rotate(-6deg) scaleX(0.22);
-  filter: blur(2px);
-  transition: transform 420ms cubic-bezier(0.2, 0.9, 0.2, 1), opacity 340ms ease;
-  will-change: transform, opacity;
+  pointer-events: none;
+  transition: all 1.2s ease;
+  animation: wispFloat 8s ease-in-out infinite;
 }
 
-.glass-card::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 1px;
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.8),
-    transparent,
-    rgba(255, 255, 255, 0.3)
-  );
-
-  pointer-events: none;
-  opacity: 0;
-  transform: rotate(8deg) scaleY(0.22);
-  filter: blur(20px);
-  border-radius: 20px;
-  transition: transform 480ms cubic-bezier(0.2, 0.9, 0.2, 1) 80ms,
-    opacity 360ms ease 80ms, width 360ms ease 80ms;
-  will-change: transform, opacity, width;
+@keyframes wispFloat {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(10px, -10px) rotate(120deg);
+  }
+  66% {
+    transform: translate(-10px, 5px) rotate(240deg);
+  }
 }
 
 .glass-card:hover::before {
-  transform: translateY(6px) rotate(-6deg) scaleX(1);
   opacity: 1;
 }
-.glass-card:hover::after {
-  transform: translateX(-6px) rotate(8deg) scaleY(1);
 
-  width: 60px;
+/* Stardust sparkle trail */
+.glass-card::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  top: 20%;
+  left: 10%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    30px 40px 2px rgba(255, 240, 255, 0.8),
+    -20px 60px 2px rgba(240, 250, 255, 0.7),
+    50px -10px 2px rgba(255, 255, 240, 0.75),
+    -40px 20px 2px rgba(255, 240, 255, 0.65),
+    60px 70px 2px rgba(240, 240, 255, 0.8),
+    10px -20px 2px rgba(255, 255, 255, 0.7),
+    -30px -10px 2px rgba(250, 240, 255, 0.65),
+    70px 30px 2px rgba(240, 255, 255, 0.75);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.glass-card:hover::after {
   opacity: 1;
+  animation: stardustTwinkle 2.5s ease-in-out infinite;
+}
+
+@keyframes stardustTwinkle {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.3);
+    filter: brightness(1.5);
+  }
+}
+
+.glass-card:hover {
+  transform: translateY(-10px) scale(1.01);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow:
+    0 20px 70px rgba(180, 180, 230, 0.25),
+    0 8px 30px rgba(210, 210, 255, 0.2),
+    0 0 80px rgba(255, 255, 255, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 0 30px rgba(255, 255, 255, 0.08);
+}
+
+/* Moonlight shimmer cascade */
+.glass-card-moonlight::before {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -20%;
+  width: 140%;
+  height: 150%;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(255, 255, 255, 0.15) 45%,
+    rgba(230, 240, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.15) 55%,
+    transparent 60%,
+    transparent 100%
+  );
+  transform: rotate(-15deg);
+  pointer-events: none;
+  transition: top 1.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.glass-card-moonlight:hover::before {
+  top: 120%;
+}
+
+/* Bubble float effect */
+.glass-card-bubbles {
+  position: relative;
+}
+
+.glass-card-bubbles::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 20%;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.2)
+  );
+  box-shadow:
+    30px 0 0 -5px rgba(240, 250, 255, 0.5),
+    -20px 5px 0 -3px rgba(255, 240, 255, 0.4),
+    50px -10px 0 -4px rgba(255, 255, 240, 0.45),
+    10px 15px 0 -6px rgba(250, 250, 255, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.5s ease;
+}
+
+.glass-card-bubbles:hover::after {
+  opacity: 1;
+  animation: bubblesRise 3s ease-in-out infinite;
+}
+
+@keyframes bubblesRise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* Fairy dust spiral */
+.glass-card-fairy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255, 240, 255, 0.7) 1px, transparent 1px),
+    radial-gradient(circle, rgba(240, 250, 255, 0.6) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 255, 240, 0.65) 1px, transparent 1px);
+  background-size:
+    40px 40px,
+    60px 60px,
+    50px 50px;
+  background-position:
+    0 0,
+    20px 20px,
+    40px 10px;
+  opacity: 0;
+  border-radius: 32px;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.glass-card-fairy:hover::before {
+  opacity: 0.5;
+  animation: fairySpiral 15s linear infinite;
+}
+
+@keyframes fairySpiral {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  to {
+    transform: rotate(360deg) scale(1.1);
+  }
+}
+
+/* Crystal refraction rays */
+.glass-card-crystal {
+  position: relative;
+}
+
+.glass-card-crystal::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(255, 240, 255, 0.15) 30deg,
+    transparent 60deg,
+    rgba(240, 250, 255, 0.15) 90deg,
+    transparent 120deg,
+    rgba(255, 255, 240, 0.15) 150deg,
+    transparent 180deg,
+    rgba(255, 240, 255, 0.15) 210deg,
+    transparent 240deg,
+    rgba(240, 250, 255, 0.15) 270deg,
+    transparent 300deg,
+    rgba(255, 255, 240, 0.15) 330deg,
+    transparent 360deg
+  );
+  transform: translate(-50%, -50%) rotate(0deg);
+  opacity: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(30px);
+  transition: opacity 0.8s ease;
+}
+
+.glass-card-crystal:hover::after {
+  opacity: 1;
+  animation: crystalRotate 10s linear infinite;
+}
+
+@keyframes crystalRotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Silk ribbon flow */
+.glass-card-silk::before {
+  content: "";
+  position: absolute;
+  inset: -100%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 240, 255, 0.3) 35%,
+    rgba(240, 250, 255, 0.25) 40%,
+    rgba(255, 255, 240, 0.2) 45%,
+    transparent 50%
+  );
+  transform: translateX(-100%) translateY(-100%);
+  pointer-events: none;
+  transition: transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: blur(20px);
+}
+
+.glass-card-silk:hover::before {
+  transform: translateX(0) translateY(0);
+}
+
+/* Dream haze pulse */
+.glass-card-dream:hover {
+  animation: dreamPulse 4s ease-in-out infinite;
+}
+
+@keyframes dreamPulse {
+  0%,
+  100% {
+    box-shadow:
+      0 20px 70px rgba(180, 180, 230, 0.25),
+      0 0 60px rgba(255, 240, 255, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 20px 70px rgba(180, 180, 230, 0.35),
+      0 0 100px rgba(240, 250, 255, 0.3);
+  }
+}
+
+/* Petal fall effect */
+.glass-card-petals::after {
+  content: "✨";
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  font-size: 12px;
+  opacity: 0;
+  text-shadow:
+    -30px 40px 0 rgba(255, 240, 255, 0.8),
+    20px 60px 0 rgba(240, 250, 255, 0.7),
+    -10px 80px 0 rgba(255, 255, 240, 0.75);
+  pointer-events: none;
+  transition: all 0.5s ease;
+}
+
+.glass-card-petals:hover::after {
+  opacity: 1;
+  animation: petalsFall 3s ease-in-out infinite;
+}
+
+@keyframes petalsFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(120px) rotate(360deg);
+    opacity: 0;
+  }
 }
