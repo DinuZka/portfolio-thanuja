@@ -276,7 +276,7 @@ export default function Contact() {
           {/* Navigation and Social Icons */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-8 sm:gap-6 pb-8 sm:pb-10 border-b border-gray-700/50">
             {/* Navigation Menu */}
-            <nav className="flex flex-wrap items-center w-1/2 justify-center sm:justify-start gap-4 sm:gap-6 lg:gap-8">
+            <nav className="flex flex-wrap items-center md:w-1/2 justify-center sm:justify-start gap-4 sm:gap-6 lg:gap-8">
               {navLinks.slice(0, -1).map((link, index) => (
                 <a
                   key={link.id}
