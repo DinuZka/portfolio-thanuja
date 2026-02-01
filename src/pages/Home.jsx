@@ -303,7 +303,7 @@ export default function Home() {
                   Hi, I'm
                 </span>
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3">
-                  <span className="text-white">I'm a</span>
+                  <span className="text-white">a</span>
                   <TypewriterCycle
                     words={typewriterWords}
                     className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent inline-block"
