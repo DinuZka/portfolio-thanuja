@@ -444,7 +444,7 @@ export default function Home() {
                     className={`w-full h-full object-cover transition-all duration-700 ${
                       isMobile ? "" : "group-hover:scale-110"
                     } ${imageLoaded ? "opacity-100" : "opacity-0"}`}
-                    loading="eager"
+                    loading="lazy"
                     decoding="async"
                     onLoad={handleImageLoad}
                     fetchpriority="high"
