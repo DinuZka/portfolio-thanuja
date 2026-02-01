@@ -336,7 +336,7 @@ export default function Home() {
             >
               <div className="flex items-center gap-2">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-lg sm:text-xl shadow-lg">
-                  5+
+                  3+
                 </div>
                 <div className="text-left">
                   <div className="text-xs sm:text-sm text-gray-500">
