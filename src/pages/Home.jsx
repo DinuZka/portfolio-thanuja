@@ -13,6 +13,7 @@ import {
   Sparkles,
   Mail,
 } from "lucide-react";
+import { TbBrandTiktok } from "react-icons/tb";
 import "../components/glassEffectStyle.css";
 import "../index.css";
 import { TypewriterCycle } from "../components/TypeWriter.jsx";
@@ -58,7 +59,7 @@ export default function Home() {
     () => [
       {
         icon: Facebook,
-        url: "#",
+        url: "https://www.facebook.com/share/14RJkzzhYvp/",
         label: "Facebook",
         color: "hover:text-blue-500",
       },
@@ -69,9 +70,9 @@ export default function Home() {
         color: "hover:text-blue-600",
       },
       {
-        icon: Instagram,
-        url: "#",
-        label: "Instagram",
+        icon: TbBrandTiktok,
+        url: "https://www.tiktok.com/@thanujanaditha20?_r=1&_t=ZS-92NtdLCsGXc",
+        label: "TikTok",
         color: "hover:text-pink-500",
       },
     ],
@@ -245,6 +246,7 @@ export default function Home() {
               <a
                 key={index}
                 href={link.url}
+                target="_blank"
                 className={`relative w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
                   isMobile
                     ? "active:scale-95"

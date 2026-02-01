@@ -3,6 +3,7 @@ import {
   Facebook,
   Twitter,
   Instagram,
+  Linkedin,
   Mail,
   Phone,
   MapPin,
@@ -10,6 +11,7 @@ import {
   ArrowUpRight,
   Heart,
 } from "lucide-react";
+import { TbBrandTiktok } from "react-icons/tb";
 import "../index.css";
 import { navLinks } from "../components/NavList";
 
@@ -23,16 +25,16 @@ export default function Contact() {
   const socialLinks = [
     {
       icon: Facebook,
-      href: "#",
+      href: "https://www.facebook.com/share/14RJkzzhYvp/",
       label: "Facebook",
       color: "hover:bg-blue-600",
     },
-    { icon: Twitter, href: "#", label: "Twitter", color: "hover:bg-sky-500" },
+    { icon: Linkedin, href: "#", label: "LinkedIn", color: "hover:bg-sky-500" },
     {
-      icon: Instagram,
-      href: "#",
-      label: "Instagram",
-      color: "hover:bg-gradient-to-tr hover:from-purple-600 hover:to-pink-600",
+      icon: TbBrandTiktok,
+      href: "https://www.tiktok.com/@thanujanaditha20?_r=1&_t=ZS-92NtdLCsGXc",
+      label: "TikTok",
+      color: "hover:bg-gradient-to-tr hover:from-gray-600 hover:to-black-600",
     },
   ];
 
@@ -257,7 +259,14 @@ export default function Contact() {
               <button className="group relative glass-card px-8 sm:px-12 py-4 rounded-full text-sm sm:text-base uppercase tracking-wider font-medium transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl hover:shadow-purple-500/30 overflow-hidden whitespace-nowrap">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                 <div className="relative flex items-center gap-2">
-                  <span>Hire Me</span>
+                  <a
+                    href="https://wa.me/+94779936534?text=Hello%20Thanuja,%20I%20would%20like%20to%20get%20in%20touch%20with%20you."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white"
+                  >
+                    <span>Hire Me</span>
+                  </a>
                   <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
                 </div>
               </button>
@@ -267,7 +276,7 @@ export default function Contact() {
           {/* Navigation and Social Icons */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-8 sm:gap-6 pb-8 sm:pb-10 border-b border-gray-700/50">
             {/* Navigation Menu */}
-            <nav className="flex flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-6 lg:gap-8">
+            <nav className="flex flex-wrap items-center w-1/2 justify-center sm:justify-start gap-4 sm:gap-6 lg:gap-8">
               {navLinks.slice(0, -1).map((link, index) => (
                 <a
                   key={link.id}

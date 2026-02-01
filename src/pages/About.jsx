@@ -322,7 +322,14 @@ export default function About() {
 
                 <div className="relative flex items-center justify-center gap-2">
                   <TbFileCv className="w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-12 transition-transform duration-300" />
-                  <span>Download CV</span>
+                  <a
+                    href={`${import.meta.env.BASE_URL}/docs/Thanuja_cv.pdf`}
+                    download
+                    rel="noopener noreferrer"
+                    className="text-white"
+                  >
+                    <span>Download CV</span>
+                  </a>
                   <TbDownload className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-y-1 transition-transform duration-300" />
                 </div>
               </button>
