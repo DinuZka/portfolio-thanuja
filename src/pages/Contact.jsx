@@ -432,7 +432,7 @@ export default function Contact() {
             </nav>
 
             {/* Social Icons */}
-            <div className="flex items-center w-full justify-center md:justify-end gap-3 sm:gap-4">
+            <div className="flex items-center w-full mt-10 md:mt-0 justify-center md:justify-end gap-3 sm:gap-4">
               {socialLinks.map((social, index) => (
                 <a
                   key={social.label}

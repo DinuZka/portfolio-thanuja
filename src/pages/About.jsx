@@ -27,7 +27,7 @@ export default function About() {
     () => [
       {
         icon: <TbBriefcase className="w-5 h-5 sm:w-6 sm:h-6" />,
-        value: "5+",
+        value: "3+",
         label: "Years Experience",
       },
       {
