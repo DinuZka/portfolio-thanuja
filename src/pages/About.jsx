@@ -114,7 +114,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="section noisy relative overflow-hidden"
+      className="section relative overflow-hidden"
       ref={sectionRef}
     >
       {/* Animated Background Elements - Optimized */}
@@ -242,6 +242,7 @@ export default function About() {
 
             {/* Subtitle with Icon */}
             <div
+              data-aos="fade-up"
               className={`flex items-center justify-center lg:justify-start gap-2 sm:gap-3 transition-all duration-1000 delay-100 ${
                 inView
                   ? "translate-y-0 opacity-100"
@@ -274,6 +275,7 @@ export default function About() {
 
             {/* Stats Grid */}
             <div
+              data-aos="fade-up"
               className={`grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 max-w-xl mx-auto lg:mx-0 transition-all duration-1000 delay-300 ${
                 inView
                   ? "translate-y-0 opacity-100"
@@ -316,7 +318,7 @@ export default function About() {
                 className="group relative glass-card px-6 sm:px-8 md:px-10 lg:px-12 py-3 sm:py-3.5 md:py-4 rounded-full text-xs sm:text-sm md:text-base uppercase tracking-wider font-medium transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl hover:shadow-blue-500/30 overflow-hidden w-full sm:w-auto"
               >
                 {/* Gradient Background Animation */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-10 group-hover:opacity-20 transition-opacity duration-300 " />
 
                 <div className="relative flex items-center justify-center gap-2">
                   <TbFileCv className="w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-12 transition-transform duration-300" />
@@ -324,20 +326,11 @@ export default function About() {
                   <TbDownload className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-y-1 transition-transform duration-300" />
                 </div>
               </button>
-
-              {/* Secondary Button */}
-              <button className="group px-6 sm:px-8 md:px-10 lg:px-12 py-3 sm:py-3.5 md:py-4 rounded-full text-xs sm:text-sm md:text-base uppercase tracking-wider font-medium transition-all duration-300 hover:scale-105 active:scale-95 border-2 border-gray-700 hover:border-purple-500/50 hover:bg-purple-500/10 w-full sm:w-auto">
-                <div className="flex items-center justify-center gap-2">
-                  <span>View Portfolio</span>
-                  <span className="group-hover:translate-x-1 transition-transform duration-300">
-                    →
-                  </span>
-                </div>
-              </button>
             </div>
 
             {/* Social Proof / Trust Badge */}
             <div
+              data-aos="fade-up"
               className={`flex items-center justify-center lg:justify-start gap-2 sm:gap-3 text-xs sm:text-sm text-gray-500 transition-all duration-1000 delay-500 ${
                 inView
                   ? "translate-y-0 opacity-100"

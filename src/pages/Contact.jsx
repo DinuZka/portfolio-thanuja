@@ -46,8 +46,8 @@ export default function Contact() {
     {
       icon: Phone,
       label: "Phone",
-      value: "+1 (555) 123-4567",
-      href: "tel:+15551234567",
+      value: "+94 77 993 6534",
+      href: "tel:+94779936534",
     },
     { icon: MapPin, label: "Location", value: "San Francisco, CA", href: "#" },
   ];
@@ -88,7 +88,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="section noisy relative overflow-hidden min-h-screen flex flex-col"
+      className="section relative overflow-hidden min-h-screen flex flex-col"
       ref={sectionRef}
     >
       {/* Animated Background Elements */}
@@ -133,7 +133,10 @@ export default function Contact() {
           </div>
 
           {/* Contact Info Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-8">
+          <div
+            data-aos="fade-up"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-8"
+          >
             {contactInfo.map((info, index) => (
               <a
                 key={index}
@@ -280,7 +283,7 @@ export default function Contact() {
             </nav>
 
             {/* Social Icons */}
-            <div className="flex items-center w-full justify-end md:justify-center gap-3 sm:gap-4">
+            <div className="flex items-center w-full justify-center md:justify-end gap-3 sm:gap-4">
               {socialLinks.map((social, index) => (
                 <a
                   key={social.label}

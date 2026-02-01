@@ -44,7 +44,4 @@ body {
       @apply flex-center lg:gap-12 gap-7;
     }
   }
-  .noisy {
-    @apply inset-0 size-full bg-[url("/images/noise.webp")];
-  }
 }
