@@ -299,11 +299,8 @@ export default function Home() {
               }`}
             >
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-                <span className="block text-gray-400 text-base sm:text-lg md:text-xl lg:text-2xl font-light mb-2 sm:mb-3">
-                  Hi, I'm
-                </span>
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3">
-                  <span className="text-white">a</span>
+                  <span className="text-white">I'm a</span>
                   <TypewriterCycle
                     words={typewriterWords}
                     className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent inline-block"
