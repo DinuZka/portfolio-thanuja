@@ -4,6 +4,8 @@ import React, {
   useRef,
   useMemo,
   useCallback,
+  lazy,
+  Suspense,
 } from "react";
 import {
   Facebook,
@@ -28,33 +30,40 @@ export default function Home() {
   const imageRef = useRef(null);
   const rafRef = useRef(null);
   const lastMouseUpdate = useRef(0);
+  const resizeTimeoutRef = useRef(null);
 
-  // Detect mobile devices
+  // ===== OPTIMIZATION 1: Improved Mobile Detection with Debounce =====
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      const newIsMobile = window.innerWidth < 768;
+      // Only update if value actually changed (prevents unnecessary re-renders)
+      if (newIsMobile !== isMobile) {
+        setIsMobile(newIsMobile);
+      }
     };
+
     checkMobile();
 
-    const debouncedResize = debounce(checkMobile, 150);
-    window.addEventListener("resize", debouncedResize);
-    return () => window.removeEventListener("resize", debouncedResize);
-  }, []);
+    const handleResize = () => {
+      // Clear existing timeout
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
 
-  // Debounce helper
-  function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
+      // Set new timeout
+      resizeTimeoutRef.current = setTimeout(checkMobile, 150);
     };
-  }
 
-  // Memoized social media links
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
+    };
+  }, [isMobile]); // Add isMobile to deps to compare
+
+  // ===== OPTIMIZATION 2: Memoized Static Data =====
   const socialMediaLinks = useMemo(
     () => [
       {
@@ -79,27 +88,34 @@ export default function Home() {
     [],
   );
 
-  // Memoized typewriter words
   const typewriterWords = useMemo(
     () => ["Designer.", "Photographer.", "Creator.", "Visual Artist."],
     [],
   );
 
-  // Reduced particles for mobile
+  // ===== OPTIMIZATION 3: Dynamic Particle Count =====
   const particles = useMemo(() => {
-    return isMobile ? Array.from({ length: 5 }) : Array.from({ length: 15 });
+    // Even fewer particles on very small screens
+    if (window.innerWidth < 480) return Array.from({ length: 3 });
+    return isMobile ? Array.from({ length: 5 }) : Array.from({ length: 10 }); // Reduced from 15
   }, [isMobile]);
 
-  // Intersection Observer
+  // ===== OPTIMIZATION 4: Improved Intersection Observer =====
   useEffect(() => {
+    // Don't run if already in view (prevents unnecessary observations)
+    if (inView) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setInView(true);
-          observer.disconnect();
+          observer.disconnect(); // Cleanup immediately
         }
       },
-      { threshold: 0.1, rootMargin: "50px" },
+      {
+        threshold: 0.1,
+        rootMargin: "50px",
+      },
     );
 
     if (sectionRef.current) {
@@ -107,9 +123,9 @@ export default function Home() {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [inView]);
 
-  // Optimized mouse move with RAF and reduced motion check
+  // ===== OPTIMIZATION 5: Throttled Mouse Movement with Will-Change =====
   useEffect(() => {
     // Skip on mobile or if user prefers reduced motion
     if (isMobile) return;
@@ -123,8 +139,8 @@ export default function Home() {
     const handleMouseMove = (e) => {
       const now = performance.now();
 
-      // Throttle to max 20fps (every 50ms)
-      if (now - lastMouseUpdate.current < 50) return;
+      // Throttle to 60fps max (every 16ms) - improved from 50ms
+      if (now - lastMouseUpdate.current < 16) return;
 
       lastMouseUpdate.current = now;
 
@@ -135,8 +151,8 @@ export default function Home() {
 
       // Use RAF for smooth updates
       rafRef.current = requestAnimationFrame(() => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 15; // Reduced movement
-        const y = (e.clientY / window.innerHeight - 0.5) * 15;
+        const x = (e.clientX / window.innerWidth - 0.5) * 10; // Reduced from 15
+        const y = (e.clientY / window.innerHeight - 0.5) * 10;
         setMousePosition({ x, y });
       });
     };
@@ -151,15 +167,14 @@ export default function Home() {
     };
   }, [isMobile]);
 
-  // Memoized scroll handler
+  // ===== OPTIMIZATION 6: Memoized Event Handlers =====
   const scrollToNext = useCallback(() => {
     const aboutSection = document.getElementById("about");
     if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: "smooth" });
+      aboutSection.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, []);
 
-  // Memoized handlers
   const handleImageMouseEnter = useCallback(() => {
     if (!isMobile) setIsHovered(true);
   }, [isMobile]);
@@ -168,10 +183,17 @@ export default function Home() {
     if (!isMobile) setIsHovered(false);
   }, [isMobile]);
 
-  // Image load handler
   const handleImageLoad = useCallback(() => {
     setImageLoaded(true);
   }, []);
+
+  // ===== OPTIMIZATION 7: Preload Critical Image =====
+  useEffect(() => {
+    // Preload the hero image
+    const img = new Image();
+    img.src = `${import.meta.env.BASE_URL}/images/2.webp`;
+    img.onload = handleImageLoad;
+  }, [handleImageLoad]);
 
   return (
     <section
@@ -179,96 +201,105 @@ export default function Home() {
       className="section relative overflow-hidden min-h-screen flex items-center"
       ref={sectionRef}
     >
-      {/* Animated Background Elements - Conditional rendering for mobile */}
+      {/* ===== OPTIMIZATION 8: Simplified Background Elements ===== */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Gradient Orbs - Simplified on mobile */}
-        {!isMobile && (
+        {/* Gradient Orbs - More efficient implementation */}
+        {!isMobile ? (
           <>
             <div
-              className="absolute top-1/4 left-1/4 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"
+              className="absolute top-1/4 left-1/4 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-blue-500/20 rounded-full blur-3xl"
               style={{
+                willChange: "transform",
                 transform: `translate3d(${mousePosition.x}px, ${mousePosition.y}px, 0)`,
+                transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)", // Smooth transition
               }}
             />
             <div
-              className="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
+              className="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-purple-500/20 rounded-full blur-3xl"
               style={{
-                animationDelay: "1s",
+                willChange: "transform",
                 transform: `translate3d(${-mousePosition.x}px, ${-mousePosition.y}px, 0)`,
+                transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
               }}
             />
           </>
-        )}
-
-        {/* Static orb for mobile */}
-        {isMobile && (
+        ) : (
+          // Single static orb for mobile
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-to-br from-blue-500/15 via-purple-500/15 to-pink-500/10 rounded-full blur-3xl" />
         )}
 
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse"
-          style={{ animationDelay: "2s" }}
-        />
-
-        {/* Floating Particles - Conditional */}
+        {/* Floating Particles - Reduced count and complexity */}
         {!isMobile && (
           <div className="absolute inset-0">
             {particles.map((_, i) => (
               <div
                 key={i}
-                className="absolute w-1 h-1 bg-white/20 rounded-full animate-float"
+                className="absolute w-1 h-1 bg-white/20 rounded-full"
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 3}s`,
-                  animationDuration: `${3 + Math.random() * 4}s`,
+                  animation: `float ${3 + Math.random() * 4}s ease-in-out ${Math.random() * 3}s infinite`,
+                  willChange: "transform",
                 }}
               />
             ))}
           </div>
         )}
 
-        {/* Grid Pattern - Desktop only */}
+        {/* Grid Pattern - Desktop only, lighter opacity */}
         {!isMobile && (
-          <div className="absolute inset-0 hidden md:block bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black,transparent)]" />
+          <div
+            className="absolute inset-0 hidden md:block opacity-30"
+            style={{
+              backgroundImage: `linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px)`,
+              backgroundSize: "50px 50px",
+              maskImage:
+                "radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent)",
+            }}
+          />
         )}
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-10 relative z-10">
-        {/* Social Media Icons */}
+        {/* ===== OPTIMIZATION 9: Social Media Icons with Better Touch Targets ===== */}
         <div
           className={`flex justify-center mb-4 sm:mb-12 md:mb-16 transition-all duration-700 ${
             inView ? "translate-y-0 opacity-100" : "-translate-y-10 opacity-0"
           }`}
         >
           <div className="glass-card flex items-center gap-3 mt-4 md:mt-0 sm:gap-4 md:gap-5 rounded-full px-2 sm:px-2 sm:py-2 md:px-5 py-2 md:py-3 border transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20 group">
-            {socialMediaLinks.map((link, index) => (
-              <a
-                key={index}
-                href={link.url}
-                target="_blank"
-                className={`relative w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
-                  isMobile
-                    ? "active:scale-95"
-                    : "hover:scale-125 active:scale-95"
-                } ${link.color} group/icon`}
-                aria-label={link.label}
-              >
-                {/* Glow effect - Desktop only */}
-                {!isMobile && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full opacity-0 group-hover/icon:opacity-20 blur-md transition-opacity duration-300" />
-                )}
+            {socialMediaLinks.map((link, index) => {
+              const IconComponent = link.icon;
+              return (
+                <a
+                  key={index}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`relative min-w-[44px] min-h-[44px] w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
+                    isMobile
+                      ? "active:scale-95"
+                      : "hover:scale-125 active:scale-95"
+                  } ${link.color} group/icon`}
+                  aria-label={link.label}
+                  style={{ willChange: "transform" }}
+                >
+                  {/* Glow effect - Desktop only */}
+                  {!isMobile && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full opacity-0 group-hover/icon:opacity-20 blur-md transition-opacity duration-300" />
+                  )}
 
-                <link.icon className="relative w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-gray-300 transition-all duration-300 group-hover/icon:rotate-12" />
+                  <IconComponent className="relative w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-gray-300 transition-all duration-300 group-hover/icon:rotate-12" />
 
-                {/* Tooltip - Desktop only */}
-                {!isMobile && (
-                  <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-3 py-1 rounded-lg opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-                    {link.label}
-                  </span>
-                )}
-              </a>
-            ))}
+                  {/* Tooltip - Desktop only */}
+                  {!isMobile && (
+                    <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-3 py-1 rounded-lg opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+                      {link.label}
+                    </span>
+                  )}
+                </a>
+              );
+            })}
           </div>
         </div>
 
@@ -363,7 +394,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* CTA Buttons */}
+            {/* ===== OPTIMIZATION 10: Improved CTA Buttons ===== */}
             <div
               className={`flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2 sm:pt-4 transition-all duration-700 delay-300 ${
                 inView
@@ -372,36 +403,35 @@ export default function Home() {
               }`}
             >
               {/* Primary Button */}
-              <button className="group relative glass-card px-8 sm:px-10 md:px-12 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm md:text-base uppercase tracking-wider font-medium transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden w-full sm:w-auto shadow-lg hover:shadow-xl hover:shadow-purple-500/30">
+              <a
+                href="#gallery"
+                className="group relative glass-card px-8 sm:px-10 md:px-12 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm md:text-base uppercase tracking-wider font-medium transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden w-full sm:w-auto shadow-lg hover:shadow-xl hover:shadow-purple-500/30 inline-block text-center"
+                style={{ willChange: "transform" }}
+              >
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
                 <div className="relative flex items-center justify-center gap-2">
-                  <a href="#gallery" className="text-white">
-                    <span>View My Work</span>
-                  </a>
+                  <span className="text-white">View My Work</span>
                   <span className="group-hover:translate-x-1 transition-transform duration-300">
                     →
                   </span>
                 </div>
-              </button>
+              </a>
 
               {/* Secondary Button */}
-              <button className="group px-8 sm:px-10 md:px-12 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm md:text-base uppercase tracking-wider font-medium transition-all duration-300 hover:scale-105 active:scale-95 border-2 border-gray-700 hover:border-purple-500/50 hover:bg-purple-500/10 w-full sm:w-auto">
-                <div className="flex items-center justify-center gap-2">
-                  <Mail className="w-4 h-4" />
-                  <a
-                    href="https://wa.me/+94779936534?text=Hello%20Thanuja,%20I%20would%20like%20to%20get%20in%20touch%20with%20you."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white"
-                  >
-                    <span>Contact Me</span>
-                  </a>
-                </div>
-              </button>
+              <a
+                href="https://wa.me/+94779936534?text=Hello%20Thanuja,%20I%20would%20like%20to%20get%20in%20touch%20with%20you."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group px-8 sm:px-10 md:px-12 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm md:text-base uppercase tracking-wider font-medium transition-all duration-300 hover:scale-105 active:scale-95 border-2 border-gray-700 hover:border-purple-500/50 hover:bg-purple-500/10 w-full sm:w-auto inline-flex items-center justify-center gap-2"
+                style={{ willChange: "transform" }}
+              >
+                <Mail className="w-4 h-4" />
+                <span className="text-white">Contact Me</span>
+              </a>
             </div>
           </div>
 
-          {/* Profile Image */}
+          {/* ===== OPTIMIZATION 11: Optimized Profile Image ===== */}
           <div
             className="flex-shrink-0 mt-4 lg:mt-0"
             ref={imageRef}
@@ -417,9 +447,15 @@ export default function Home() {
             >
               {/* Main Image Container */}
               <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[420px] lg:h-[420px] xl:w-[500px] xl:h-[500px]">
-                {/* Rotating Border - Disabled on mobile */}
+                {/* Rotating Border - CSS animation instead of JS */}
                 {!isMobile && (
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full opacity-30 group-hover:opacity-50 transition-opacity duration-500 animate-spin-slow" />
+                  <div
+                    className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full opacity-30 group-hover:opacity-50 transition-opacity duration-500"
+                    style={{
+                      animation: "spin-slow 20s linear infinite",
+                      willChange: "transform",
+                    }}
+                  />
                 )}
 
                 {/* Static border for mobile */}
@@ -432,21 +468,26 @@ export default function Home() {
 
                 {/* Image Container */}
                 <div className="absolute inset-3 sm:inset-4 bg-gradient-to-br from-teal-600/20 to-gray-800 rounded-full overflow-hidden border-2 sm:border-4 border-gray-700 shadow-2xl group-hover:border-purple-500/50 transition-all duration-500">
-                  {/* Loading placeholder */}
+                  {/* Loading placeholder with pulse */}
                   {!imageLoaded && (
-                    <div className="absolute inset-0 bg-gray-800 animate-pulse" />
+                    <div className="absolute inset-0 bg-gray-800">
+                      <div className="absolute inset-0 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 animate-pulse" />
+                    </div>
                   )}
 
                   <img
                     src={`${import.meta.env.BASE_URL}/images/2.webp`}
-                    alt="Designer and Photographer"
+                    alt="Thanuja Nadhitha - Designer and Photographer"
                     className={`w-full h-full object-cover transition-all duration-700 ${
                       isMobile ? "" : "group-hover:scale-110"
                     } ${imageLoaded ? "opacity-100" : "opacity-0"}`}
-                    loading="lazy"
+                    loading="eager"
                     decoding="async"
                     onLoad={handleImageLoad}
                     fetchpriority="high"
+                    width="500"
+                    height="500"
+                    style={{ willChange: imageLoaded ? "auto" : "opacity" }}
                   />
 
                   {/* Gradient Overlay - Desktop only */}
@@ -458,24 +499,42 @@ export default function Home() {
                 {/* Animated Circles - Desktop only */}
                 {!isMobile && (
                   <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute inset-0 rounded-full border-2 border-blue-400/30 animate-ping" />
                     <div
-                      className="absolute inset-4 rounded-full border-2 border-purple-400/30 animate-ping"
-                      style={{ animationDelay: "0.5s" }}
+                      className="absolute inset-0 rounded-full border-2 border-blue-400/30"
+                      style={{
+                        animation:
+                          "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
+                      }}
+                    />
+                    <div
+                      className="absolute inset-4 rounded-full border-2 border-purple-400/30"
+                      style={{
+                        animation:
+                          "ping 1s cubic-bezier(0, 0, 0.2, 1) 0.5s infinite",
+                      }}
                     />
                   </div>
                 )}
 
-                {/* Floating Elements - Reduced on mobile */}
-                <div className="absolute inset-0 pointer-events-none">
-                  <div
-                    className={`absolute -top-4 -right-4 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full opacity-20 blur-xl ${isMobile ? "" : "animate-float"}`}
-                  />
-                  <div
-                    className={`absolute -bottom-4 -left-4 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full opacity-20 blur-xl ${isMobile ? "" : "animate-float"}`}
-                    style={{ animationDelay: "1s" }}
-                  />
-                </div>
+                {/* Floating Elements - Simplified */}
+                {!isMobile && (
+                  <div className="absolute inset-0 pointer-events-none">
+                    <div
+                      className="absolute -top-4 -right-4 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full opacity-20 blur-xl"
+                      style={{
+                        animation: "float 3s ease-in-out infinite",
+                        willChange: "transform",
+                      }}
+                    />
+                    <div
+                      className="absolute -bottom-4 -left-4 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full opacity-20 blur-xl"
+                      style={{
+                        animation: "float 3s ease-in-out 1s infinite",
+                        willChange: "transform",
+                      }}
+                    />
+                  </div>
+                )}
 
                 {/* Glow Effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 via-purple-500/30 to-pink-500/30 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity duration-500" />
@@ -484,7 +543,10 @@ export default function Home() {
               {/* Decorative Elements */}
               <div className="absolute top-1/2 -right-4 sm:-right-6 -translate-y-1/2">
                 <div
-                  className={`bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-3 sm:p-4 shadow-xl backdrop-blur-sm border border-white/10 ${isMobile ? "" : "animate-float"}`}
+                  className={`bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-3 sm:p-4 shadow-xl backdrop-blur-sm border border-white/10 ${
+                    isMobile ? "" : "animate-float"
+                  }`}
+                  style={!isMobile ? { willChange: "transform" } : {}}
                 >
                   <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </div>
@@ -501,7 +563,7 @@ export default function Home() {
         >
           <button
             onClick={scrollToNext}
-            className="group flex flex-col items-center gap-2 text-gray-400 hover:text-white transition-colors duration-300"
+            className="group flex flex-col items-center gap-2 text-gray-400 hover:text-white transition-colors duration-300 min-w-[44px] min-h-[44px]"
             aria-label="Scroll to next section"
           >
             <span className="text-xs sm:text-sm uppercase tracking-wider">
@@ -515,74 +577,90 @@ export default function Home() {
         </div>
       </div>
 
+      {/* ===== OPTIMIZATION 12: Enhanced CSS with Performance Hints ===== */}
       <style jsx>{`
         @keyframes float {
           0%,
           100% {
-            transform: translateY(0px);
+            transform: translateY(0px) translateZ(0);
           }
           50% {
-            transform: translateY(-20px);
+            transform: translateY(-20px) translateZ(0);
           }
         }
 
         @keyframes spin-slow {
           from {
-            transform: rotate(0deg);
+            transform: rotate(0deg) translateZ(0);
           }
           to {
-            transform: rotate(360deg);
+            transform: rotate(360deg) translateZ(0);
           }
         }
 
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-
-        .animate-spin-slow {
-          animation: spin-slow 20s linear infinite;
+        @keyframes ping {
+          75%,
+          100% {
+            transform: scale(2);
+            opacity: 0;
+          }
         }
 
         /* Disable animations on mobile for better performance */
         @media (max-width: 768px) {
-          .animate-spin-slow {
-            animation: none;
-          }
-        }
-
-        /* Optimize animations for reduced motion preference */
-        @media (prefers-reduced-motion: reduce) {
-          .animate-float,
           .animate-spin-slow,
-          .animate-bounce,
-          .animate-pulse,
-          .animate-ping {
-            animation: none;
+          .animate-float {
+            animation: none !important;
           }
-        }
 
-        /* GPU acceleration and performance optimizations */
-        .glass-card,
-        .group img,
-        [class*="animate-"] {
-          transform: translateZ(0);
-          backface-visibility: hidden;
-          -webkit-font-smoothing: subpixel-antialiased;
-        }
-
-        /* Reduce blur on mobile for better performance */
-        @media (max-width: 768px) {
+          /* Reduce blur complexity on mobile */
           .blur-3xl {
             filter: blur(40px);
           }
           .blur-xl {
             filter: blur(20px);
           }
+          .blur-md {
+            filter: blur(10px);
+          }
         }
 
-        /* Optimize transitions */
+        /* Optimize animations for reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
+        }
+
+        /* GPU acceleration hints for animated elements */
+        .glass-card,
+        .group img,
+        [class*="animate-"],
+        [style*="animation"] {
+          transform: translateZ(0);
+          backface-visibility: hidden;
+          -webkit-font-smoothing: subpixel-antialiased;
+          perspective: 1000px;
+        }
+
+        /* Optimize transition timing */
         * {
           transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Contain layout/paint for better performance */
+        .glass-card {
+          contain: layout paint;
+        }
+
+        /* Optimize will-change usage - remove after animation */
+        [style*="will-change"] {
+          /* will-change is set inline when needed */
         }
       `}</style>
     </section>
